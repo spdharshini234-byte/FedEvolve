@@ -1,0 +1,16 @@
+federated:
+  num_clients: 3
+  client_names: [Factory A, Factory B, Factory C]
+  rounds: 6               # FedAvg communication rounds
+  local_epochs: 2         # epochs each factory trains per round
+
+non_iid:
+  mode: matrix            # matrix | dirichlet
+  # "matrix": for every class, the share of that class's images given to each factory.
+  # Values are normalised per class, so they only need to be relative sizes.
+  # Factory A: mostly scratch + some crack | Factory B: mostly crack + some dent | Factory C: mostly dent/color + some scratch
+  class_weights:
+    client_1: {scratch: 0.70, crack: 0.30, dent: 0.00, color_defect: 0.00}
+    client_2: {scratch: 0.00, crack: 0.70, dent: 0.30, color_defect: 0.00}
+    client_3: {scratch: 0.30, crack: 0.00, dent: 0.70, color_defect: 1.00}
+  dirichlet_alpha: 0.3    # used only when mode = dirichlet (smaller = more non-IID)

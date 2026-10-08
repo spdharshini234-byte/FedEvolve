@@ -1,0 +1,10 @@
+continual:
+  # Tasks arrive one after another. Task 1 = initial classes, later tasks add NEW defect classes.
+  tasks:
+    - {name: "Task 1", classes: [scratch, crack]}
+    - {name: "Task 2", classes: [dent]}
+    - {name: "Task 3", classes: [color_defect]}   # delete this line to run a 2-task experiment
+  rounds_per_task: 2      # federated rounds for every task (3 tasks x 2 = 6 rounds, same as plain FedAvg)
+  local_epochs: 2
+  replay:
+    buffer_size: 60       # max old samples remembered PER FACTORY (class-balanced). Samples stay on the factory.

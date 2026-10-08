@@ -1,0 +1,35 @@
+# Main configuration. All paths are RELATIVE to the project root (works on Windows/Linux/Mac).
+project:
+  name: Federated Continual Defect Detection
+  seed: 42
+  device: auto            # auto | cpu | cuda   (CPU is the default for laptops)
+
+paths:
+  raw: data/raw
+  processed: data/processed
+  clients: data/clients
+  models: models
+  results: results
+
+dataset:
+  # Defect classes = sub-folder names inside data/raw/. Change this list for your own dataset.
+  classes: [scratch, crack, dent, color_defect]
+  image_size: 64          # images are resized to image_size x image_size
+  split: {train: 0.70, val: 0.15, test: 0.15}
+  min_images_per_class: 10
+  demo:
+    images_per_class: 120 # only used when generating the SYNTHETIC demo dataset
+
+model:
+  name: resnet18
+  pretrained: true        # ImageNet transfer learning; falls back to random init (with a warning) if weights cannot be downloaded
+  freeze_backbone: false  # true = train only the final layer (faster, needs good pretrained weights)
+
+training:
+  batch_size: 16
+  learning_rate: 0.001
+  optimizer: adam         # adam | sgd
+  weight_decay: 0.0
+  epochs: auto            # centralized / local-only epochs. "auto" = federated rounds x local epochs (fair comparison)
+  augmentation: true
+  num_workers: 0
